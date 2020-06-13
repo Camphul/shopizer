@@ -7,6 +7,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Collections;
 
@@ -17,15 +21,17 @@ import static org.mockito.Mockito.*;
  * @author <a href="mailto:luca@camphuisen.com">Luca Camphuisen</a>
  * @since 6/13/20
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ShoppingCartServiceImplTest {
 
-    private ShoppingCartRepository cartRepository;
+    @InjectMocks
     private ShoppingCartServiceImpl service;
+    @Mock
+    private ShoppingCartRepository cartRepository;
 
     @Before
     public void before() {
-        this.cartRepository = mock(ShoppingCartRepository.class);
-        this.service = new ShoppingCartServiceImpl(this.cartRepository);
+        service = new ShoppingCartServiceImpl(cartRepository);
     }
 
     @After
@@ -36,12 +42,11 @@ public class ShoppingCartServiceImplTest {
 
 
     @Test
-    public void deleteSucceeds() throws ServiceException {
+    public void removeShoppingCart() throws ServiceException {
         ShoppingCart shoppingCart = new ShoppingCart();
         long expectedId = 4;
         shoppingCart.setId(expectedId);
-        when(this.cartRepository.findOne(expectedId)).thenReturn(shoppingCart);
-        this.service.delete(shoppingCart);
+        this.service.removeShoppingCart(shoppingCart);
         verify(this.cartRepository, times(1)).delete(shoppingCart);
     }
 
