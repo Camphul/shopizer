@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-	
+
+
  	<artifactId>sm-shop-model</artifactId>
 	<name>sm-shop-model</name>
 	<description>sm-shop-model contains Shopizer model objects for api</description>
@@ -13,10 +13,10 @@
 		<version>2.7.0</version>
 	</parent>
 
-<!--   	<parent> 
-		<groupId>org.springframework.boot</groupId> 
-		<artifactId>spring-boot-starter-parent</artifactId> 
-		<version>1.5.18.RELEASE</version> 
+<!--   	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.18.RELEASE</version>
 	</parent>
 	<groupId>com.shopizer</groupId>
 	<version>2.7.0</version> -->
@@ -45,6 +45,7 @@
 		<shopizer.version>2.7.0</shopizer.version>
 		<!-- api documentation -->
 		<swagger.version>2.9.2</swagger.version>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 
@@ -65,8 +66,8 @@
 			<artifactId>javax.annotation-api</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		
-		<!-- Swagger 2 documentation -->		
+
+		<!-- Swagger 2 documentation -->
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-swagger2</artifactId>
@@ -124,7 +125,7 @@
 				</executions>
 			</plugin>
 			<!--OSSRH -->
-			
+
 			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -140,7 +141,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			OSSRH 
+			OSSRH
  			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
