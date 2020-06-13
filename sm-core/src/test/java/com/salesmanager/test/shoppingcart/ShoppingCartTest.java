@@ -35,8 +35,8 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 
 
 /**
- * Test 
- * 
+ * Test
+ *
  * - Add a product to persistent shopping cart
  * - Retrieve an item from the persistent shopping cart
  * - Rebuild a shopping cart item after the product definition has been modified
@@ -44,20 +44,20 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
  *
  */
 public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
-	
+
 
 
 	@Test
 	public void createShoppingCart() throws Exception {
 
         MerchantStore store = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
-        
-		
+
+
 	    Language en = languageService.getByCode("en");
 
 
 	    /** CATALOG CREATION **/
-	    
+
 	    ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
 
 	    /**
@@ -78,8 +78,8 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 
 	    shirts.setDescriptions(descriptions);
 	    categoryService.create(shirts);
-	    
-	    
+
+
 	    /**
 	     * Create a manufacturer
 	     */
@@ -94,7 +94,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    addidas.getDescriptions().add(addidasDesc);
 
 	    manufacturerService.create(addidas);
-	    
+
 	    /**
 	     * Create an option
 	     */
@@ -102,50 +102,50 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    option.setMerchantStore(store);
 	    option.setCode("color");
 	    option.setProductOptionType(ProductOptionType.Radio.name());
-	    
+
 	    ProductOptionDescription optionDescription = new ProductOptionDescription();
 	    optionDescription.setLanguage(en);
 	    optionDescription.setName("Color");
 	    optionDescription.setDescription("Item color");
 	    optionDescription.setProductOption(option);
-	    
+
 	    option.getDescriptions().add(optionDescription);
-	    
+
 	    productOptionService.saveOrUpdate(option);
-	    
-	    
+
+
 	    /** first option value **/
 	    ProductOptionValue white = new ProductOptionValue();
 	    white.setMerchantStore(store);
 	    white.setCode("white");
-	    
+
 	    ProductOptionValueDescription whiteDescription = new ProductOptionValueDescription();
 	    whiteDescription.setLanguage(en);
 	    whiteDescription.setName("White");
 	    whiteDescription.setDescription("White color");
 	    whiteDescription.setProductOptionValue(white);
-	    
+
 	    white.getDescriptions().add(whiteDescription);
-	    
+
 	    productOptionValueService.saveOrUpdate(white);
-	    
-	    
+
+
 	    ProductOptionValue black = new ProductOptionValue();
 	    black.setMerchantStore(store);
 	    black.setCode("black");
-	    
+
 	    /** second option value **/
 	    ProductOptionValueDescription blackDesc = new ProductOptionValueDescription();
 	    blackDesc.setLanguage(en);
 	    blackDesc.setName("Black");
 	    blackDesc.setDescription("Black color");
 	    blackDesc.setProductOptionValue(black);
-	    
+
 	    black.getDescriptions().add(blackDesc);
 
 	    productOptionValueService.saveOrUpdate(black);
-	    
-	    
+
+
 	    /**
 	     * Create a complex product
 	     */
@@ -166,22 +166,22 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 
 	    product.getDescriptions().add(description);
 	    product.getCategories().add(shirts);
-	    
-	    
+
+
 	    //availability
 	    ProductAvailability availability = new ProductAvailability();
 	    availability.setProductDateAvailable(new Date());
 	    availability.setProductQuantity(100);
 	    availability.setRegion("*");
 	    availability.setProduct(product);// associate with product
-	    
+
 	    //price
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
 	    dprice.setProductPriceAmount(new BigDecimal(29.99));
 	    dprice.setProductAvailability(availability);
-	    
-	    
+
+
 
 	    ProductPriceDescription dpd = new ProductPriceDescription();
 	    dpd.setName("Base price");
@@ -191,8 +191,8 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    dprice.getDescriptions().add(dpd);
 	    availability.getPrices().add(dprice);
 	    product.getAvailabilities().add(availability);
-	    
-	    
+
+
 	    //attributes
 	    //white
 	    ProductAttribute whiteAttribute = new ProductAttribute();
@@ -203,7 +203,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    whiteAttribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
 	    whiteAttribute.setProductOption(option);
 	    whiteAttribute.setProductOptionValue(white);
-	    
+
 	    product.getAttributes().add(whiteAttribute);
 	    //black
 	    ProductAttribute blackAttribute = new ProductAttribute();
@@ -213,55 +213,55 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    blackAttribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
 	    blackAttribute.setProductOption(option);
 	    blackAttribute.setProductOptionValue(black);
-	    
+
 	    product.getAttributes().add(blackAttribute);
 
 	    productService.create(product);
-	    
+
 	    /** Create Shopping cart **/
-	    
+
 	    ShoppingCart shoppingCart = new ShoppingCart();
 	    shoppingCart.setMerchantStore(store);
-	    
+
 	    UUID cartCode = UUID.randomUUID();
 	    shoppingCart.setShoppingCartCode(cartCode.toString());
 
 	    ShoppingCartItem item = new ShoppingCartItem(shoppingCart,product);
 	    item.setShoppingCart(shoppingCart);
-	    
+
 	    FinalPrice price = pricingService.calculateProductPrice(product);
 
 	    item.setItemPrice(price.getFinalPrice());
 	    item.setQuantity(1);
-	    
+
 	    /** user selects black **/
 	    ShoppingCartAttributeItem attributeItem = new ShoppingCartAttributeItem(item,blackAttribute);
 	    item.getAttributes().add(attributeItem);
-	    
+
 	    shoppingCart.getLineItems().add(item);
 
-	    
+
 	    //create cart
 	    shoppingCartService.create(shoppingCart);
 
-	    
+
 	    /** Retrieve cart **/
 
 	    ShoppingCart retrievedCart = shoppingCartService.getByCode(cartCode.toString(), store);
-	    
+
 	    Assert.assertNotNull(retrievedCart);
-	    
+
 	    /** Delete cart **/
 	    shoppingCartService.delete(retrievedCart);
-	    
+
 	    /** Check if cart has been deleted **/
 	    retrievedCart = shoppingCartService.getByCode(cartCode.toString(), store);
-	    
+
 	    Assert.assertNull(retrievedCart);
-	    
 
 
+		Product refreshed = productService.getByCode("TB12345", en); productService.delete(refreshed);
 	}
-	
+
 
 }
