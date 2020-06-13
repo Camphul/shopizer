@@ -46,7 +46,10 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSalesManagerCoreTestCase {
 
 
-
+	/**
+	 * Big integration test.
+	 * @throws Exception
+	 */
 	@Test
 	public void createShoppingCart() throws Exception {
 
