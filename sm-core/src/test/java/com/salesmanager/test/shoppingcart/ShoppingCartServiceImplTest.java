@@ -27,7 +27,7 @@ public class ShoppingCartServiceImplTest {
     @Before
     public void before() {
         this.cartRepository = mock(ShoppingCartRepository.class);
-        service = new ShoppingCartServiceImpl(cartRepository);
+        this.service = new ShoppingCartServiceImpl(cartRepository);
     }
 
     @After
@@ -36,21 +36,15 @@ public class ShoppingCartServiceImplTest {
         this.cartRepository = null;
     }
 
-
     @Test
-    public void removeShoppingCart() throws ServiceException {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        long expectedId = 4;
-        shoppingCart.setId(expectedId);
-        this.service.removeShoppingCart(shoppingCart);
-        verify(this.cartRepository, times(1)).delete(shoppingCart);
-    }
-
-    @Test
-    public void getById() throws ServiceException {
+    public void getById() {
         ShoppingCart shoppingCart = mock(ShoppingCart.class);
         long expectedId = 4;
         shoppingCart.setId(expectedId);
+        /* Following two when statements are required due to the execution flow
+         * of the getById method. Changing the return values in other tests
+         * will allow us to gain higher test coverage and test all possible flows of the method.
+         */
         when(shoppingCart.isObsolete()).thenReturn(false);
         when(shoppingCart.getLineItems()).thenReturn(Collections.EMPTY_SET);
         when(this.cartRepository.findOne(expectedId)).thenReturn(shoppingCart);
@@ -59,7 +53,7 @@ public class ShoppingCartServiceImplTest {
     }
 
     @Test
-    public void getByIdFindOneReturnsNull() throws ServiceException {
+    public void getByIdFindOneReturnsNull() {
         ShoppingCart shoppingCart = mock(ShoppingCart.class);
         long expectedId = 4;
         shoppingCart.setId(expectedId);
@@ -83,5 +77,12 @@ public class ShoppingCartServiceImplTest {
         verify(this.cartRepository, times(1)).delete(shoppingCart);
     }
 
-
+    @Test
+    public void removeShoppingCart() throws ServiceException {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        long expectedId = 4;
+        shoppingCart.setId(expectedId);
+        this.service.removeShoppingCart(shoppingCart);
+        verify(this.cartRepository, times(1)).delete(shoppingCart);
+    }
 }

@@ -26,7 +26,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 	/**
 	 * Creates a list of ShippingProduct based on the ShoppingCart if items are
 	 * virtual return list will be null
-	 * 
+	 *
 	 * @param cart
 	 * @return
 	 * @throws ServiceException
@@ -35,7 +35,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	/**
 	 * Looks if the items in the ShoppingCart are free of charges
-	 * 
+	 *
 	 * @param cart
 	 * @return
 	 * @throws ServiceException
@@ -46,7 +46,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	/**
 	 * Populates a ShoppingCartItem from a Product and attributes if any
-	 * 
+	 *
 	 * @param product
 	 * @return
 	 * @throws ServiceException
@@ -70,17 +70,26 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	/**
 	 * Determines if the shopping cart requires shipping
-	 * 
+	 *
 	 * @param cart
 	 * @return
 	 * @throws ServiceException
 	 */
 	boolean requiresShipping(ShoppingCart cart) throws ServiceException;
-	
+
 	/**
 	 * Removes a shopping cart item
 	 * @param item
 	 */
 	void deleteShoppingCartItem(Long id);
+
+	/**
+	 * Custom method to fix duplicate cart items. Same logic as the facade.
+	 * @param cart
+	 * @param item
+	 */
+	ShoppingCart addLineItem(ShoppingCart cart, ShoppingCartItem item) throws ServiceException;
+
+	boolean sanitizeShoppingCartLineItems(ShoppingCart cart, boolean keepHighestQuantity) throws ServiceException;
 
 }
