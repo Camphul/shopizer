@@ -658,7 +658,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
                             } else {
                                 return i2.getQuantity() - i1.getQuantity();
                             }
-                        }).findAny();
+                        }).findFirst();
                 //Remove based on quantity if any matching item is present.
                 if (mostSimilarItem.isPresent()) {
                     ShoppingCartItem similarItem = mostSimilarItem.get();
