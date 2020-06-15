@@ -123,7 +123,6 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 		ShoppingCart retrievedCart = shoppingCartService.getByCode(cartCode, store);
 		assertNull("Retrieved cart must be null.", retrievedCart);
 	}
-
     /**
      * Integration test to verify that we can create and delete a shopping cart.
      *
@@ -163,7 +162,6 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 
         assertNull(shoppingCart);
     }
-
     /**
      * Integration test to verify that we can create and add items to the shopping cart.
      *
@@ -264,7 +262,6 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 
 		fail("Did not expect to succesfully save shopping cart.");
 	}
-
 	/**
 	 * Integration test to verify that we can create and add items to the shopping cart.
 	 * Adds a duplicate item and verifies behaviour.
